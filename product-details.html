@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Details - Fire Trace</title>
+    <link rel="stylesheet" href="s.css">
+    <style>
+        body {
+            background: #f3f3f3;
+        }
+        .product-main-flex {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 900px;
+            margin: 40px auto 0 auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+            padding: 2rem;
+            gap: 32px;
+        }
+        .product-detail-info {
+            flex: 1 1 340px;
+            min-width: 280px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .product-detail-info h2 {
+            color: #b31217;
+            margin-bottom: 0.7rem;
+            font-size: 2rem;
+        }
+        .product-detail-info p {
+            margin-bottom: 0.8rem;
+            color: #444;
+            font-size: 1.08rem;
+        }
+        .product-detail-info label {
+            font-weight: 500;
+            margin-right: 8px;
+        }
+        #size-select {
+            padding: 6px 16px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+        .product-price-highlight {
+            font-size: 1.5rem;
+            color: #ff6a00;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+        .buy-btn {
+            background: #ffd814;
+            color: #222;
+            border: none;
+            border-radius: 20px;
+            padding: 12px 32px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1.2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            transition: background 0.2s;
+            width: fit-content;
+        }
+        .buy-btn:hover {
+            background: #f7ca00;
+        }
+        .product-detail-image {
+            flex: 0 0 260px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .product-detail-image img {
+            max-width: 220px;
+            height: 180px;
+            object-fit: contain;
+            border-radius: 10px;
+            background: #f7f7f7;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        }
+        .suggestions-container {
+            max-width: 900px;
+            margin: 32px auto 40px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+            padding: 2rem;
+        }
+        .suggestions-container h3 {
+            text-align: left;
+            margin-bottom: 1.2rem;
+            font-size: 1.3rem;
+            color: #222;
+        }
+        #suggestions-list {
+            display: flex;
+            gap: 24px;
+            margin-top: 1.2rem;
+            overflow-x: auto;
+        }
+        @media (max-width: 900px) {
+            #suggestions-list {
+                grid-template-columns: repeat(2, 1fr); /* 2 per row on tablet */
+            }
+        }
+        @media (max-width: 600px) {
+            #suggestions-list {
+                grid-template-columns: 1fr; /* 1 per row on mobile */
+            }
+        }
+        .suggestion-card {
+            background: #fafafa;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #eee;
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-width: 200px;
+            max-width: 220px;
+            flex: 0 0 auto;
+        }
+        .suggestion-card img {
+            max-width: 100px;
+            height: 70px;
+            object-fit: contain;
+            margin-bottom: 0.7rem;
+            border-radius: 6px;
+            background: #f7f7f7;
+        }
+        .suggestion-card h4 {
+            font-size: 1rem;
+            margin-bottom: 0.4rem;
+            color: #b31217;
+        }
+        .suggestion-card p {
+            font-size: 0.95rem;
+            color: #444;
+            margin-bottom: 0.5rem;
+        }
+        .suggestion-card button {
+            background: #ff6a00;
+            color: #fff;
+            border: none;
+            border-radius: 18px;
+            padding: 6px 18px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+        .suggestion-card button:hover {
+            background: #b31217;
+        }
+        @media (max-width: 900px) {
+            .product-main-flex {
+                flex-direction: column;
+                gap: 24px;
+                padding: 1rem;
+            }
+            .suggestions-container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header>
+        <div class="container">
+            <h1>Fire Trace</h1>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="product.html">Products</a>
+                <a href="ourservice.html">Our Services</a>
+                <a href="contact.html">Contact</a>
+                <a href="about.html">About us</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="product-main-flex">
+        <div class="product-detail-image">
+            <img id="product-image" src="" alt="">
+        </div>
+        <div class="product-detail-info">
+            <h2 id="product-name"></h2>
+            <p id="product-brief"></p>
+            <p><strong>Where is it used?</strong> <span id="product-use"></span></p>
+            <label for="size-select"><strong>Available Sizes:</strong></label>
+            <select id="size-select"></select>
+            <p><strong>Price:</strong> <span class="product-price-highlight">₹<span id="product-price"></span></span></p>
+            <button class="buy-btn">Buy Now</button>
+        </div>
+    </div>
+    <div class="suggestions-container">
+        <h3>You may also like</h3>
+        <div id="suggestions-list"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-contacts" style="margin-bottom:10px;">
+                <a href="https://www.instagram.com/yourprofile" target="_blank" style="margin-right:15px; color:#fff; text-decoration:none; display:inline-block;">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg" alt="Instagram" style="width:20px;vertical-align:middle;margin-right:5px;filter:invert(1);"> Instagram
+                </a>
+                <a href="https://www.facebook.com/yourprofile" target="_blank" style="margin-right:15px; color:#fff; text-decoration:none; display:inline-block;">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/facebook.svg" alt="Facebook" style="width:20px;vertical-align:middle;margin-right:5px;filter:invert(1);"> Facebook
+                </a>
+                <a href="https://wa.me/yourwhatsappphonenumber" target="_blank" style="margin-right:15px; color:#fff; text-decoration:none; display:inline-block;">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/whatsapp.svg" alt="WhatsApp" style="width:20px;vertical-align:middle;margin-right:5px;filter:invert(1);"> WhatsApp
+                </a>
+                <span style="color:#fff; display:inline-block;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" style="vertical-align:middle;margin-right:5px;fill:#fff;display:inline;" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.07 21 3 13.93 3 5a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.24 1.01l-2.2 2.2z"/></svg>
+                    +91-9967535401
+                </span>
+            </div>
+            <p>&copy; 2025 Fire Trace. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="product-details.js"></script>
+</body>
+</html>
