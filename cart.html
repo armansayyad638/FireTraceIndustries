@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart - Fire Trace</title>
+    <link rel="stylesheet" href="s.css">
+    <style>
+        body {
+            background: linear-gradient(120deg, #fff 0%, #ffe5e5 100%);
+            min-height: 100vh;
+        }
+        .cart-container {
+            max-width: 700px;
+            margin: 40px auto 30px auto;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(179,18,23,0.08), 0 1.5px 6px rgba(0,0,0,0.04);
+            padding: 38px 28px 28px 28px;
+        }
+        .cart-container h2 {
+            color: #b31217;
+            font-size: 2em;
+            margin-bottom: 18px;
+            letter-spacing: 1px;
+        }
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 0;
+            border-bottom: 1px solid #f2dede;
+            gap: 18px;
+            transition: background 0.2s;
+        }
+        .cart-item:last-child { border-bottom: none; }
+        .cart-item-img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: #f7f7f7;
+            margin-right: 16px;
+            box-shadow: 0 2px 8px rgba(179,18,23,0.07);
+        }
+        .cart-item-info { flex: 1; }
+        .cart-item-name {
+            font-weight: 600;
+            font-size: 1.1em;
+            color: #b31217;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .cart-item-actions button {
+            background: #fff;
+            border: 1.5px solid #b31217;
+            color: #b31217;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            outline: none;
+        }
+        .cart-item-actions button:hover {
+            background: #b31217;
+            color: #fff;
+        }
+        .cart-item-actions .remove-btn {
+            display: inline-block;
+            background: linear-gradient(90deg, #ff6a00 0%, #b31217 100%);
+            color: #fff;
+            border: none !important;
+            border-radius: 999px;
+            padding: 8px 26px;
+            font-size: 1em;
+            margin-left: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 1px 4px rgba(179,18,23,0.09);
+            transition: background 0.2s, transform 0.2s;
+            outline: none;
+            min-width: 80px;
+            width: auto !important;
+            height: auto !important;
+            line-height: normal;
+            vertical-align: middle;
+        }
+        .cart-item-actions .remove-btn:hover {
+            background: linear-gradient(90deg, #b31217 0%, #ff6a00 100%);
+            color: #fff;
+            transform: scale(1.06);
+        }
+        .cart-item-price {
+            font-weight: 600;
+            color: #222;
+            font-size: 1.1em;
+            min-width: 70px;
+            text-align: right;
+        }
+        .cart-total {
+            text-align: right;
+            font-size: 1.3em;
+            color: #b31217;
+            margin-top: 24px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .empty-cart-msg {
+            text-align: center;
+            color: #b31217;
+            margin: 40px 0;
+            font-size: 1.2em;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+        .checkout-btn {
+            display: block;
+            margin: 36px auto 0 auto;
+            background: linear-gradient(90deg, #b31217 0%, #ff6a00 100%);
+            color: #fff;
+            border: none;
+            border-radius: 32px;
+            padding: 16px 54px;
+            font-size: 1.15em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 12px rgba(179,18,23,0.09);
+            letter-spacing: 1px;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .checkout-btn:hover {
+            background: linear-gradient(90deg, #a50f14 0%, #ff6a00 100%);
+            transform: translateY(-2px) scale(1.04);
+        }
+        .suggestions-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 22px;
+            justify-content: center;
+            margin-top: 38px;
+        }
+        .suggestion-card {
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 2px 12px rgba(179,18,23,0.07);
+            padding: 18px 14px 20px 14px;
+            width: 190px;
+            text-align: center;
+            cursor: pointer;
+            transition: box-shadow 0.2s, transform 0.2s;
+            border: 1.5px solid #ffe5e5;
+        }
+        .suggestion-card:hover {
+            box-shadow: 0 6px 18px rgba(179,18,23,0.13);
+            transform: translateY(-3px) scale(1.03);
+            border-color: #ffb3b3;
+        }
+        .suggestion-card h4 {
+            font-size: 1.08em;
+            margin: 0 0 8px 0;
+            color: #b31217;
+            font-weight: 600;
+        }
+        .suggestion-card img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: #f7f7f7;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 4px rgba(179,18,23,0.06);
+        }
+        .suggestion-card button {
+            background: linear-gradient(90deg, #b31217 0%, #ff6a00 100%);
+            color: #fff;
+            border: none;
+            border-radius: 18px;
+            padding: 7px 22px;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .suggestion-card button:hover {
+            background: linear-gradient(90deg, #a50f14 0%, #ff6a00 100%);
+            transform: scale(1.06);
+        }
+        .cart-hover {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background-color: #b31217;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: background-color 0.3s, transform 0.3s;
+            z-index: 1100;
+        }
+        .cart-hover.hide { display: none !important; }
+        .cart-hover:hover {
+            background-color: #a50f14;
+            transform: translateY(-2px);
+        }
+        @media (max-width: 900px) {
+            .cart-container {
+                max-width: 98vw;
+                padding: 18px 4vw 18px 4vw;
+            }
+            .suggestion-card {
+                width: 44vw;
+                min-width: 150px;
+                max-width: 220px;
+            }
+        }
+        @media (max-width: 600px) {
+            .cart-container {
+                margin: 18px 0 18px 0;
+                padding: 10vw 2vw 8vw 2vw;
+                border-radius: 10px;
+            }
+            .cart-container h2 {
+                font-size: 1.3em;
+            }
+            .cart-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                padding: 12px 0;
+            }
+            .cart-item-img {
+                width: 54px;
+                height: 54px;
+                margin-right: 0;
+                margin-bottom: 6px;
+            }
+            .cart-item-price {
+                min-width: 0;
+                font-size: 1em;
+                margin-top: 6px;
+            }
+            .checkout-btn {
+                padding: 12px 0;
+                width: 100%;
+                font-size: 1em;
+            }
+            .suggestion-card {
+                width: 90vw;
+                min-width: 0;
+                max-width: 98vw;
+            }
+            .cart-hover {
+                right: 12px;
+                bottom: 80px;
+                width: 48px;
+                height: 48px;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <h1>Fire Trace</h1>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="product.html">Products</a>
+                <a href="ourservice.html">Services</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="cart-container">
+        <h2>Your Cart</h2>
+        <div id="cart-items"></div>
+        <div class="cart-total" id="cart-total"></div>
+        <div class="empty-cart-msg" id="empty-cart-msg" style="display:none;">Your cart is empty.</div>
+        <button class="checkout-btn" id="checkout-btn" style="display:none;">Checkout</button>
+    </div>
+    <div class="suggestions-list" id="cart-suggestions"></div>
+    <!-- Cart Hover Button -->
+    <div id="cart-hover" class="cart-hover" onclick="window.location.href='cart.html'">
+        🛒 <span id="cart-count">0</span>
+    </div>
+  
+    <!-- Footer -->
+    <footer>
+        <div class="footer-contacts" style="margin-bottom:10px;">
+            <a href="https://www.instagram.com/firetraceindustries" target="_blank" style="margin-right:15px; color:#fff; text-decoration:none; display:inline-block;">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg" alt="Instagram" style="width:20px;vertical-align:middle;margin-right:5px;filter:invert(1);"> Instagram
+            </a>
+            <a href="https://www.facebook.com/yourprofile" target="_blank" style="margin-right:15px; color:#fff; text-decoration:none; display:inline-block;">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/facebook.svg" alt="Facebook" style="width:20px;vertical-align:middle;margin-right:5px;filter:invert(1);"> Facebook
+            </a>
+            <a href="https://wa.me/919967535401" target="_blank" style="margin-right:15px; color:#fff; text-decoration:none; display:inline-block;">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/whatsapp.svg" alt="WhatsApp" style="width:20px;vertical-align:middle;margin-right:5px;filter:invert(1);"> WhatsApp
+            </a>
+            <a href="mailto:shahbazfiretrace@gmail.com" style="margin-right:15px; color:#fff; text-decoration:none; display:inline-block;">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/gmail.svg" alt="Email" style="width:20px;vertical-align:middle;margin-right:5px;filter:invert(1);"> shahbazfiretrace@gmail.com
+            </a>
+            <span style="color:#fff; display:inline-block;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" style="vertical-align:middle;margin-right:5px;fill:#fff;display:inline;" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.07 21 3 13.93 3 5a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.24 1.01l-2.2 2.2z"/></svg>
+                +91-9967535401
+            </span>
+        </div>
+        <div class="container">
+            <p>&copy; 2025 Fire Trace. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+    // --- Product & Service Data (for images in cart/suggestions) ---
+    const products = {
+        "abc": { name: "ABC Dry Powder", image: "abc.jpeg" },
+        "co2": { name: "CO2 Extinguisher", image: "co2.jpg" },
+        "foam": { name: "Foam Extinguisher", image: "Foam-Fire-Extinguishers.png" },
+        "water": { name: "Water Mist Extinguisher", image: "water-fire-extinguisher.jpg" },
+        "automatic-modular": { name: "Automatic Modular Extinguisher", image: "automatic-modular.jpg" },
+        "fire-blanket": { name: "Kitchen Fire Blanket", image: "fire-blanket.jpg" },
+        "fireball": { name: "Fire Ball Extinguisher", image: "fireball.jpg" },
+        "trolley": { name: "Trolley Mounted Extinguisher", image: "https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=400&q=80" }
+    };
+    // Example services (add your own images and keys as needed)
+    const services = {
+        "amc": { name: "Annual Maintenance Contract", image: "service-amc.jpg" },
+        "installation": { name: "Installation Service", image: "service-installation.jpg" }
+    };
+
+    // --- Cart Logic ---
+    function renderCart() {
+        const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        const cartItems = document.getElementById('cart-items');
+        const cartTotal = document.getElementById('cart-total');
+        const emptyMsg = document.getElementById('empty-cart-msg');
+        const checkoutBtn = document.getElementById('checkout-btn');
+        let total = 0;
+
+        cartItems.innerHTML = '';
+        if (cart.length === 0) {
+            cartTotal.textContent = '';
+            emptyMsg.style.display = 'block';
+            document.getElementById('cart-hover').classList.add('hide');
+            checkoutBtn.style.display = 'none';
+            document.getElementById('cart-count').textContent = 0;
+            renderSuggestions();
+            return;
+        } else {
+            emptyMsg.style.display = 'none';
+            document.getElementById('cart-hover').classList.remove('hide');
+            checkoutBtn.style.display = 'block';
+        }
+
+        cart.forEach((item, idx) => {
+            total += item.price * item.qty;
+            // Try to get image from products or services
+            let imgSrc = "";
+            if (products[item.id]) imgSrc = products[item.id].image;
+            else if (services[item.id]) imgSrc = services[item.id].image;
+            else imgSrc = "https://via.placeholder.com/60x60?text=No+Image";
+            const div = document.createElement('div');
+            div.className = 'cart-item';
+            div.innerHTML = `
+                <img class="cart-item-img" src="${imgSrc}" alt="${item.name}">
+                <div class="cart-item-info">
+                    <span class="cart-item-name">${item.name}</span>
+                    <div class="cart-item-actions">
+                        <button onclick="updateQty(${idx}, -1)">-</button>
+                        <span>${item.qty}</span>
+                        <button onclick="updateQty(${idx}, 1)">+</button>
+                        <button class="remove-btn" onclick="removeItem(${idx})">Remove</button>
+                    </div>
+                </div>
+                <span class="cart-item-price">₹${item.price * item.qty}</span>
+            `;
+            cartItems.appendChild(div);
+        });
+        cartTotal.textContent = 'Total: ₹' + total;
+        document.getElementById('cart-count').textContent = cart.reduce((sum, i) => sum + i.qty, 0);
+        renderSuggestions();
+    }
+
+    function updateQty(idx, delta) {
+        let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        cart[idx].qty += delta;
+        if (cart[idx].qty < 1) cart[idx].qty = 1;
+        localStorage.setItem('cart', JSON.stringify(cart));
+        renderCart();
+    }
+
+    function removeItem(idx) {
+        let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        cart.splice(idx, 1);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        renderCart();
+    }
+
+    // --- Suggestions Logic ---
+    function renderSuggestions() {
+        const suggestionsDiv = document.getElementById('cart-suggestions');
+        suggestionsDiv.innerHTML = '';
+        // Show up to 4 products/services not in cart
+        const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        const cartIds = cart.map(i => i.id);
+        let suggestions = [];
+        // Add products
+        for (const [id, prod] of Object.entries(products)) {
+            if (!cartIds.includes(id)) {
+                suggestions.push({ id, ...prod, type: 'product' });
+            }
+        }
+        // Add services
+        for (const [id, serv] of Object.entries(services)) {
+            if (!cartIds.includes(id)) {
+                suggestions.push({ id, ...serv, type: 'service' });
+            }
+        }
+        suggestions = suggestions.slice(0, 4);
+        suggestions.forEach(s => {
+            const card = document.createElement('div');
+            card.className = 'suggestion-card';
+            card.innerHTML = `
+                <img src="${s.image}" alt="${s.name}">
+                <h4>${s.name}</h4>
+                <button onclick="addSuggestionToCart('${s.id}', '${s.name}', '${s.type}')">Add to Cart</button>
+            `;
+            suggestionsDiv.appendChild(card);
+        });
+    }
+
+    function addSuggestionToCart(id, name, type) {
+        let price = 1000; // Default price for suggestion (customize as needed)
+        if (products[id]) price =  Object.values(products[id].sizes || {price:1000})[0] || 1000;
+        // For services, you can set a price map if needed
+        let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        const idx = cart.findIndex(item => item.id === id && item.name === name);
+        if (idx > -1) {
+            cart[idx].qty += 1;
+        } else {
+            cart.push({ id, name, price, qty: 1 });
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+        renderCart();
+    }
+
+    // --- Checkout Button ---
+    document.addEventListener('DOMContentLoaded', function() {
+        renderCart();
+        document.getElementById('checkout-btn').onclick = function() {
+            alert('Checkout functionality coming soon!');
+        }
+    });
+    </script>
+    
+</body>
+</html>
