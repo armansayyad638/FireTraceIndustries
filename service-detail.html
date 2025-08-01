@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Service Details - Fire Trace</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="s.css">
+    <style>
+    /* Extra styles for service detail page */
+    .service-main-flex {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 40px;
+        max-width: 1100px;
+        margin: 40px auto 0 auto;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+        padding: 40px;
+    }
+    .service-detail-image img {
+        width: 220px;
+        height: 220px;
+        object-fit: contain;
+        border-radius: 12px;
+        background: #f6f6f6;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .service-detail-info {
+        flex: 1;
+        min-width: 260px;
+    }
+    .service-detail-info h2 { color: #b31217; margin-top: 0; }
+    .service-detail-info p { font-size: 1.1em; }
+    .service-price-highlight {
+        color: #b31217;
+        font-size: 1.3em;
+        font-weight: bold;
+        margin: 18px 0 12px 0;
+    }
+    .buy-btn {
+        background: linear-gradient(90deg, #b31217 0%, #ff6a00 100%);
+        color: #fff;
+        border: none;
+        border-radius: 25px;
+        padding: 12px 36px;
+        font-size: 1.1em;
+        cursor: pointer;
+        transition: background 0.2s;
+        margin-bottom: 18px;
+    }
+    .buy-btn:hover {
+        background: linear-gradient(90deg, #ff6a00 0%, #b31217 100%);
+    }
+    .suggestions-container {
+        max-width: 1100px;
+        margin: 32px auto 0 auto;
+        padding: 0 20px 40px 20px;
+    }
+    .suggestions-container h3 {
+        color: #b31217;
+        margin-bottom: 18px;
+    }
+    .suggestions-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 18px;
+        justify-content: center; /* Center the suggestion cards */
+    }
+    .suggestion-card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        padding: 18px 14px;
+        width: 180px;
+        text-align: center;
+        cursor: pointer;
+        transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .suggestion-card:hover {
+        box-shadow: 0 6px 18px rgba(179,18,23,0.13);
+        transform: translateY(-3px) scale(1.03);
+    }
+    .suggestion-card img {
+        width: 60px;
+        height: 60px;
+        object-fit: contain;
+        margin-bottom: 10px;
+    }
+    .suggestion-card h4 {
+        font-size: 1.05em;
+        margin: 0 0 6px 0;
+        color: #b31217;
+    }
+    @media (max-width: 900px) {
+        .service-main-flex { flex-direction: column; align-items: center; padding: 24px; }
+        .service-detail-image img { width: 150px; height: 150px; }
+        .suggestions-list { gap: 12px; }
+    }
+    @media (max-width: 600px) {
+        .service-main-flex { padding: 10px; }
+        .suggestion-card { width: 100%; }
+    }
+    /* Remove blue outline on click/focus */
+    .product-card:focus, .product-card:active, .suggestion-card:focus, .suggestion-card:active {
+        outline: none !important;
+        box-shadow: none !important;
+    }
+    .fab {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        background: #b31217;
+        color: #fff;
+        border-radius: 50%;
+        width: 56px;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        transition: background 0.3s;
+    }
+    .fab:hover {
+        background: #ff6a00;
+    }
+    .fab img {
+        width: 24px;
+        height: 24px;
+    }
+    .fab-options {
+        display: none;
+        position: absolute;
+        bottom: 70px;
+        right: 0;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        padding: 10px 0;
+        z-index: 100;
+    }
+    .fab-options a {
+        display: block;
+        padding: 10px 20px;
+        color: #b31217;
+        text-decoration: none;
+        font-size: 0.9em;
+        transition: background 0.2s;
+    }
+    .fab-options a:hover {
+        background: #f6f6f6;
+    }
+    /* Cart hover button styles */
+    .cart-hover {
+        position: fixed;
+        bottom: 90px; /* Place above the FAB button */
+        right: 24px;  /* Same right as FAB */
+        background: #b31217;
+        color: #fff;
+        border-radius: 50%;
+        width: 56px;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        transition: background 0.3s;
+        z-index: 1001;
+    }
+    .cart-hover:hover {
+        background: #ff6a00;
+    }
+    #cart-count {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        background: #fff;
+        color: #b31217;
+        border-radius: 50%;
+        padding: 2px 6px;
+        font-size: 0.8em;
+        font-weight: bold;
+    }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Fire Trace</h1>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="product.html">Products</a>
+                <a href="ourservice.html">Our Services</a>
+                <a href="contact.html">Contact</a>
+                <a href="about.html">About us</a>
+            </nav>
+        </div>
+    </header>
+    <div class="service-main-flex" id="service-detail-content">
+        <!-- Service details will be injected here -->
+    </div>
+    <div class="suggestions-container" id="suggestions-container">
+        <!-- Suggestions will be injected here -->
+    </div>
+    <!-- Floating Action Button -->
+    <div class="fab" onclick="toggleFabOptions()">
+        <img src="https://cdn-icons-png.flaticon.com/512/724/724664.png" alt="Call Icon">
+        <div id="fab-options" class="fab-options">
+            <!-- Example options -->
+            <a href="tel:+919967535401">Call</a>
+            <a href="https://wa.me/919967535401" target="_blank">WhatsApp</a>
+        </div>
+    </div>
+    <!-- Cart Hover Button -->
+    <div id="cart-hover" class="cart-hover" onclick="window.location.href='cart.html'">
+        🛒 <span id="cart-count">0</span>
+    </div>
+    <footer>
+        <div class="footer-contacts" style="margin-bottom:10px;">
+            <a href="https://www.instagram.com/firetraceindustries" target="_blank" style="margin-right:15px; color:#fff; text-decoration:none; display:inline-block;">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg" alt="Instagram" style="width:20px;vertical-align:middle;margin-right:5px;filter:invert(1);"> Instagram
+            </a>
+            <a href="https://www.facebook.com/yourprofile" target="_blank" style="margin-right:15px; color:#fff; text-decoration:none; display:inline-block;">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/facebook.svg" alt="Facebook" style="width:20px;vertical-align:middle;margin-right:5px;filter:invert(1);"> Facebook
+            </a>
+            <a href="https://wa.me/919967535401" target="_blank" style="margin-right:15px; color:#fff; text-decoration:none; display:inline-block;">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/whatsapp.svg" alt="WhatsApp" style="width:20px;vertical-align:middle;margin-right:5px;filter:invert(1);"> WhatsApp
+            </a>
+            <a href="mailto:shahbazfiretrace@gmail.com" style="margin-right:15px; color:#fff; text-decoration:none; display:inline-block;">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/gmail.svg" alt="Email" style="width:20px;vertical-align:middle;margin-right:5px;filter:invert(1);"> shahbazfiretrace@gmail.com
+            </a>
+            <span style="color:#fff; display:inline-block;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" style="vertical-align:middle;margin-right:5px;fill:#fff;display:inline;" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.07 21 3 13.93 3 5a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.24 1.01l-2.2 2.2z"/></svg>
+                +91-9967535401
+            </span>
+        </div>
+        <div class="container">
+            <p>&copy; 2025 Fire Trace. All rights reserved.</p>
+            <p style="font-size:0.95em; color:#fff; margin-top:6px;">
+                Page developed by: <a href="mailto:armansayyad9075@gmail.com" style="color:#ffd814;text-decoration:underline;">armansayyad9075@gmail.com</a>
+            </p>
+        </div>
+    </footer>
+    <script src="service-detail.js"></script>
+    <script>
+    // Disable right-click context menu
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    });
+
+    // Disable F12, Ctrl+Shift+I/J/C/U
+    document.addEventListener('keydown', function(e) {
+        // F12
+        if (e.key === "F12") {
+            e.preventDefault();
+        }
+        // Ctrl+Shift+I/J/C
+        if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) {
+            e.preventDefault();
+        }
+        // Ctrl+U
+        if (e.ctrlKey && e.key === 'u') {
+            e.preventDefault();
+        }
+    });
+
+    // Accessibility: Cart hover button
+    const cartHover = document.getElementById('cart-hover');
+    if (cartHover) {
+      cartHover.setAttribute('aria-label', 'View cart');
+      cartHover.setAttribute('title', 'View cart');
+      cartHover.setAttribute('tabindex', '0');
+      cartHover.onkeydown = function(e) {
+        if (e.key === "Enter" || e.key === " ") {
+          window.location.href = 'cart.html';
+        }
+      };
+    }
+
+    // Accessibility: FAB
+    const fab = document.querySelector('.fab');
+    if (fab) {
+      fab.setAttribute('aria-label', 'Contact options');
+      fab.setAttribute('title', 'Contact options');
+      fab.setAttribute('tabindex', '0');
+      fab.onkeydown = function(e) {
+        if (e.key === "Enter" || e.key === " ") {
+          toggleFabOptions();
+        }
+      };
+    }
+
+    // Accessibility: Footer contact links
+    document.querySelectorAll('.footer-contacts a').forEach(link => {
+      link.setAttribute('aria-label', link.textContent.trim());
+      link.setAttribute('title', link.textContent.trim());
+    });
+
+    // Accessibility: Suggestion cards
+    document.querySelectorAll('.suggestion-card').forEach(card => {
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('aria-label', card.querySelector('h4')?.textContent || 'Service');
+      card.onkeydown = function(e) {
+        if (e.key === "Enter" || e.key === " ") {
+          card.click();
+        }
+      };
+    });
+
+    // Animate cart button when item is added
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'cart') {
+        if (cartHover) {
+          cartHover.style.transform = 'scale(1.15)';
+          setTimeout(() => { cartHover.style.transform = ''; }, 250);
+        }
+      }
+    });
+    </script>
+</body>
+</html>

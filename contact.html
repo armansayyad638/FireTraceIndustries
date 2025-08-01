@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Fire Trace</title>
+    <link rel="stylesheet" href="s.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Fire Trace</h1>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="product.html">Products</a>
+                <a href="ourservice.html">Our Services</a>
+                <a href="contact.html">Contact</a>
+                <a href="about.html">About Us</a>
+            </nav>
+        </div>
+    </header>
+    <section class="contact">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <p class="contact-description">
+                Have questions about our fire extinguishers or need help choosing the right product? Fill out the form below and our team will get back to you as soon as possible.
+            </p>
+            <form id="contactForm" class="contact-form">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <textarea placeholder="Your Message" required></textarea>
+                <button type="submit" class="btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+    <!-- Cart Hover Button -->
+    <div id="cart-hover" class="cart-hover" onclick="window.location.href='cart.html'">
+        🛒 <span id="cart-count">0</span>
+    </div>
+    <footer>
+        <div class="footer-contacts" style="margin-bottom:10px;">
+            <a href="https://www.instagram.com/firetraceindustries" target="_blank" style="margin-right:15px; color:#fff; text-decoration:none; display:inline-block;">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg" alt="Instagram" style="width:20px;vertical-align:middle;margin-right:5px;filter:invert(1);"> Instagram
+            </a>
+            <a href="https://www.facebook.com/yourprofile" target="_blank" style="margin-right:15px; color:#fff; text-decoration:none; display:inline-block;">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/facebook.svg" alt="Facebook" style="width:20px;vertical-align:middle;margin-right:5px;filter:invert(1);"> Facebook
+            </a>
+            <a href="https://wa.me/919967535401" target="_blank" style="margin-right:15px; color:#fff; text-decoration:none; display:inline-block;">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/whatsapp.svg" alt="WhatsApp" style="width:20px;vertical-align:middle;margin-right:5px;filter:invert(1);"> WhatsApp
+            </a>
+            <a href="mailto:shahbazfiretrace@gmail.com" style="margin-right:15px; color:#fff; text-decoration:none; display:inline-block;">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/gmail.svg" alt="Email" style="width:20px;vertical-align:middle;margin-right:5px;filter:invert(1);"> shahbazfiretrace@gmail.com
+            </a>
+            <span style="color:#fff; display:inline-block;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" style="vertical-align:middle;margin-right:5px;fill:#fff;display:inline;" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.07 21 3 13.93 3 5a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.24 1.01l-2.2 2.2z"/></svg>
+                +91-9967535401
+            </span>
+        </div>
+        <div class="container">
+            <p>&copy; 2025 Fire Trace. All rights reserved.</p>
+            <p style="font-size:0.95em; color:#fff; margin-top:6px;">
+                Page developed by: <a href="mailto:armansayyad9075@gmail.com" style="color:#ffd814;text-decoration:underline;">armansayyad9075@gmail.com</a>
+            </p>
+        </div>
+    </footer>
+    <script src="s.js"></script>
+    <script>
+    // Disable right-click context menu
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    });
+
+    // Disable F12, Ctrl+Shift+I/J/C/U
+    document.addEventListener('keydown', function(e) {
+        // F12
+        if (e.key === "F12") {
+            e.preventDefault();
+        }
+        // Ctrl+Shift+I/J/C
+        if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) {
+            e.preventDefault();
+        }
+        // Ctrl+U
+        if (e.ctrlKey && e.key === 'u') {
+            e.preventDefault();
+        }
+    });
+
+    // Accessibility: Cart hover button
+    const cartHover = document.getElementById('cart-hover');
+    if (cartHover) {
+      cartHover.setAttribute('aria-label', 'View cart');
+      cartHover.setAttribute('title', 'View cart');
+      cartHover.setAttribute('tabindex', '0');
+      cartHover.onkeydown = function(e) {
+        if (e.key === "Enter" || e.key === " ") {
+          window.location.href = 'cart.html';
+        }
+      };
+    }
+
+    // Accessibility: Footer contact links
+    document.querySelectorAll('.footer-contacts a').forEach(link => {
+      link.setAttribute('aria-label', link.textContent.trim());
+      link.setAttribute('title', link.textContent.trim());
+    });
+
+    // Accessibility: Contact form fields and button
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+      contactForm.querySelectorAll('input, textarea').forEach(field => {
+        if (field.placeholder) {
+          field.setAttribute('aria-label', field.placeholder);
+          field.setAttribute('title', field.placeholder);
+        }
+      });
+      const sendBtn = contactForm.querySelector('button[type="submit"]');
+      if (sendBtn) {
+        sendBtn.setAttribute('aria-label', 'Send Message');
+        sendBtn.setAttribute('title', 'Send Message');
+      }
+    }
+
+    // Animate cart button when item is added
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'cart') {
+        if (cartHover) {
+          cartHover.style.transform = 'scale(1.15)';
+          setTimeout(() => { cartHover.style.transform = ''; }, 250);
+        }
+      }
+    });
+    </script>
+</body>
+</html>

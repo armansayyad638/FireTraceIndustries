@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Cart - Fire Trace</title>
+    <link rel="stylesheet" href="s.css" />
+    <style>
+      body {
+        background: linear-gradient(120deg, #fff 0%, #ffe5e5 100%);
+        min-height: 100vh;
+      }
+      .cart-container {
+        max-width: 700px;
+        margin: 40px auto 30px auto;
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 4px 24px rgba(179, 18, 23, 0.08),
+          0 1.5px 6px rgba(0, 0, 0, 0.04);
+        padding: 38px 28px 28px 28px;
+      }
+      .cart-container h2 {
+        color: #b31217;
+        font-size: 2em;
+        margin-bottom: 18px;
+        letter-spacing: 1px;
+      }
+      .cart-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 0;
+        border-bottom: 1px solid #f2dede;
+        gap: 18px;
+        transition: background 0.2s;
+      }
+      .cart-item:last-child {
+        border-bottom: none;
+      }
+      .cart-item-img {
+        width: 70px;
+        height: 70px;
+        object-fit: contain;
+        border-radius: 12px;
+        background: #f7f7f7;
+        margin-right: 16px;
+        box-shadow: 0 2px 8px rgba(179, 18, 23, 0.07);
+      }
+      .cart-item-info {
+        flex: 1;
+      }
+      .cart-item-name {
+        font-weight: 600;
+        font-size: 1.1em;
+        color: #b31217;
+        margin-bottom: 6px;
+        display: block;
+      }
+      .cart-item-actions {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .cart-item-actions button {
+        background: #fff;
+        border: 1.5px solid #b31217;
+        color: #b31217;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        font-size: 1.1em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+        outline: none;
+      }
+      .cart-item-actions button:hover {
+        background: #b31217;
+        color: #fff;
+      }
+      .cart-item-actions .remove-btn {
+        display: inline-block;
+        background: linear-gradient(90deg, #ff6a00 0%, #b31217 100%);
+        color: #fff;
+        border: none !important;
+        border-radius: 999px;
+        padding: 8px 26px;
+        font-size: 1em;
+        margin-left: 10px;
+        font-weight: 500;
+        cursor: pointer;
+        box-shadow: 0 1px 4px rgba(179, 18, 23, 0.09);
+        transition: background 0.2s, transform 0.2s;
+        outline: none;
+        min-width: 80px;
+        width: auto !important;
+        height: auto !important;
+        line-height: normal;
+        vertical-align: middle;
+      }
+      .cart-item-actions .remove-btn:hover {
+        background: linear-gradient(90deg, #b31217 0%, #ff6a00 100%);
+        color: #fff;
+        transform: scale(1.06);
+      }
+      .cart-item-price {
+        font-weight: 600;
+        color: #222;
+        font-size: 1.1em;
+        min-width: 70px;
+        text-align: right;
+      }
+      .cart-total {
+        text-align: right;
+        font-size: 1.3em;
+        color: #b31217;
+        margin-top: 24px;
+        font-weight: bold;
+        letter-spacing: 1px;
+      }
+      .empty-cart-msg {
+        text-align: center;
+        color: #b31217;
+        margin: 40px 0;
+        font-size: 1.2em;
+        font-weight: 500;
+        letter-spacing: 1px;
+      }
+      .checkout-btn {
+        display: block;
+        margin: 36px auto 0 auto;
+        background: linear-gradient(90deg, #b31217 0%, #ff6a00 100%);
+        color: #fff;
+        border: none;
+        border-radius: 32px;
+        padding: 16px 54px;
+        font-size: 1.15em;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 2px 12px rgba(179, 18, 23, 0.09);
+        letter-spacing: 1px;
+        transition: background 0.2s, transform 0.2s;
+      }
+      .checkout-btn:hover {
+        background: linear-gradient(90deg, #a50f14 0%, #ff6a00 100%);
+        transform: translateY(-2px) scale(1.04);
+      }
+      .suggestions-list {
+        display: flex;
+        flex-direction: row; /* horizontal row */
+        gap: 28px;
+        justify-content: center;
+        align-items: stretch;
+        margin: 48px auto 60px auto; /* more space above and below */
+        width: 100%;
+        max-width: 1100px;
+        min-height: 120px;
+        transition: margin 0.2s;
+      }
+      .suggestion-card {
+        background: linear-gradient(120deg, #fff 60%, #ffe5e5 100%);
+        border-radius: 16px;
+        box-shadow: 0 4px 18px rgba(179, 18, 23, 0.09);
+        padding: 22px 18px 24px 18px;
+        width: 100%;
+        max-width: 260px;
+        min-width: 180px;
+        text-align: center;
+        cursor: pointer;
+        transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+        border: 2px solid #ffe5e5;
+        position: relative;
+        overflow: hidden;
+      }
+      .suggestion-card:hover {
+        box-shadow: 0 8px 24px rgba(179, 18, 23, 0.18);
+        transform: translateY(-5px) scale(1.04);
+        border-color: #ffb3b3;
+        background: linear-gradient(120deg, #ffe5e5 60%, #fff 100%);
+      }
+      .suggestion-card h4 {
+        font-size: 1.12em;
+        margin: 0 0 10px 0;
+        color: #b31217;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+      }
+      .suggestion-card img {
+        width: 84px;
+        height: 84px;
+        object-fit: contain;
+        border-radius: 10px;
+        background: #f7f7f7;
+        margin-bottom: 12px;
+        box-shadow: 0 2px 8px rgba(179, 18, 23, 0.08);
+        border: 1.5px solid #ffd6d6;
+      }
+      .suggestion-card button {
+        background: linear-gradient(90deg, #b31217 0%, #ff6a00 100%);
+        color: #fff;
+        border: none;
+        border-radius: 20px;
+        padding: 9px 28px;
+        font-size: 1.07em;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 12px;
+        transition: background 0.2s, transform 0.2s;
+        box-shadow: 0 1px 4px rgba(179, 18, 23, 0.09);
+      }
+      .suggestion-card button:hover {
+        background: linear-gradient(90deg, #a50f14 0%, #ff6a00 100%);
+        transform: scale(1.07);
+      }
+      .cart-hover {
+        position: fixed;
+        bottom: 100px;
+        right: 30px;
+        background-color: #b31217;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s, transform 0.3s;
+        z-index: 1100;
+      }
+      .cart-hover.hide {
+        display: none !important;
+      }
+      .cart-hover:hover {
+        background-color: #a50f14;
+        transform: translateY(-2px);
+      }
+      @media (max-width: 900px) {
+        .cart-container {
+          max-width: 98vw;
+          padding: 18px 4vw 18px 4vw;
+        }
+        .suggestion-card {
+          width: 44vw;
+          min-width: 150px;
+          max-width: 220px;
+        }
+      }
+      @media (max-width: 600px) {
+        .cart-container {
+          margin: 18px 0 18px 0;
+          padding: 10vw 2vw 8vw 2vw;
+          border-radius: 10px;
+        }
+        .cart-container h2 {
+          font-size: 1.3em;
+        }
+        .cart-item {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 10px;
+          padding: 12px 0;
+        }
+        .cart-item-img {
+          width: 54px;
+          height: 54px;
+          margin-right: 0;
+          margin-bottom: 6px;
+        }
+        .cart-item-price {
+          min-width: 0;
+          font-size: 1em;
+          margin-top: 6px;
+        }
+        .checkout-btn {
+          padding: 12px 0;
+          width: 100%;
+          font-size: 1em;
+        }
+        .suggestion-card {
+          width: 96vw;
+          max-width: 98vw;
+        }
+        .cart-hover {
+          right: 12px;
+          bottom: 80px;
+          width: 48px;
+          height: 48px;
+          font-size: 20px;
+        }
+      }
+      footer {
+        margin-top: 40px;
+        background-color: #a50f14;
+        color: #fff;
+        padding: 28px 0 10px 0;
+        border-radius: 18px 18px 0 0;
+        box-shadow: 0 -2px 12px rgba(179, 18, 23, 0.07);
+        transition: margin 0.2s;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="container">
+        <h1>Fire Trace</h1>
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="product.html">Products</a>
+          <a href="ourservice.html">Services</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="cart-container">
+      <h2>Your Cart</h2>
+      <div id="cart-items"></div>
+      <div class="cart-total" id="cart-total"></div>
+      <div class="empty-cart-msg" id="empty-cart-msg" style="display: none">
+        Your cart is empty.
+      </div>
+      <button class="checkout-btn" id="checkout-btn" style="display: none">
+        Checkout
+      </button>
+    </div>
+    <div class="suggestions-list" id="cart-suggestions"></div>
+    <!-- Cart Hover Button -->
+    <div
+      id="cart-hover"
+      class="cart-hover"
+      onclick="window.location.href='cart.html'"
+    >
+      🛒 <span id="cart-count">0</span>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-contacts" style="margin-bottom: 10px">
+        <a
+          href="https://www.instagram.com/firetraceindustries"
+          target="_blank"
+          style="
+            margin-right: 15px;
+            color: #fff;
+            text-decoration: none;
+            display: inline-block;
+          "
+        >
+          <img
+            src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg"
+            alt="Instagram"
+            style="
+              width: 20px;
+              vertical-align: middle;
+              margin-right: 5px;
+              filter: invert(1);
+            "
+          />
+          Instagram
+        </a>
+        <a
+          href="https://www.facebook.com/yourprofile"
+          target="_blank"
+          style="
+            margin-right: 15px;
+            color: #fff;
+            text-decoration: none;
+            display: inline-block;
+          "
+        >
+          <img
+            src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/facebook.svg"
+            alt="Facebook"
+            style="
+              width: 20px;
+              vertical-align: middle;
+              margin-right: 5px;
+              filter: invert(1);
+            "
+          />
+          Facebook
+        </a>
+        <a
+          href="https://wa.me/919967535401"
+          target="_blank"
+          style="
+            margin-right: 15px;
+            color: #fff;
+            text-decoration: none;
+            display: inline-block;
+          "
+        >
+          <img
+            src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/whatsapp.svg"
+            alt="WhatsApp"
+            style="
+              width: 20px;
+              vertical-align: middle;
+              margin-right: 5px;
+              filter: invert(1);
+            "
+          />
+          WhatsApp
+        </a>
+        <a
+          href="mailto:shahbazfiretrace@gmail.com"
+          style="
+            margin-right: 15px;
+            color: #fff;
+            text-decoration: none;
+            display: inline-block;
+          "
+        >
+          <img
+            src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/gmail.svg"
+            alt="Email"
+            style="
+              width: 20px;
+              vertical-align: middle;
+              margin-right: 5px;
+              filter: invert(1);
+            "
+          />
+          shahbazfiretrace@gmail.com
+        </a>
+        <span style="color: #fff; display: inline-block">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            style="
+              vertical-align: middle;
+              margin-right: 5px;
+              fill: #fff;
+              display: inline;
+            "
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.07 21 3 13.93 3 5a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.24 1.01l-2.2 2.2z"
+            />
+          </svg>
+          +91-9967535401
+        </span>
+      </div>
+      <div class="container">
+        <p>&copy; 2025 Fire Trace. All rights reserved.</p>
+        <p style="font-size: 0.95em; color: #fff; margin-top: 6px">
+          Page developed by:
+          <a
+            href="mailto:armansayyad9075@gmail.com"
+            style="color: #ffd814; text-decoration: underline"
+            >armansayyad9075@gmail.com</a
+          >
+        </p>
+      </div>
+    </footer>
+
+    <script>
+const images = {
+  "ABC Dry Powder": "abc.jpeg",
+  "CO2 Extinguisher": "co2.jpg",
+  "Foam Extinguisher": "Foam-Fire-Extinguishers.png",
+  "Water Mist Extinguisher": "water-fire-extinguisher.jpg",
+  "Automatic Modular Extinguisher": "automatic-modular.jpg",
+  "Kitchen Fire Blanket": "fire-blanket.jpg",
+  "Fire Ball Extinguisher": "fireball.jpg",
+  "Trolley Mounted Extinguisher":
+    "https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=400&q=80",
+  "DLP Suppression System": "dlp.png",
+  "Gas Fire Suppression System": "gas.jpg",
+  "Kitchen Fire Suppression System": "KitchenFire.jpg",
+  "Fire Hydrant System": "firehydrant.jpg",
+  "Fire Alarm System": "fire-alarm-system-removebg.png",
+  "Fire Suppression System": "sprinkle.jpg",
+  "Engineering & Maintenance":
+    "https://cdn-icons-png.flaticon.com/512/1828/1828919.png",
+};
+
+function getImage(item) {
+  // Prefer explicit image property, then base name, then placeholder
+  if (item.image) return item.image;
+  const baseName = item.name.replace(/\s+\d+(kg|l|L)/i, "").trim();
+  return images[baseName] || "https://via.placeholder.com/70x70?text=No+Image";
+}
+
+function renderCart() {
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  const cartItems = document.getElementById("cart-items");
+  const cartTotal = document.getElementById("cart-total");
+  const emptyMsg = document.getElementById("empty-cart-msg");
+  const checkoutBtn = document.getElementById("checkout-btn");
+  let total = 0;
+
+  cartItems.innerHTML = "";
+  if (cart.length === 0) {
+    cartTotal.textContent = "";
+    emptyMsg.style.display = "block";
+    document.getElementById("cart-hover").classList.add("hide");
+    checkoutBtn.style.display = "none";
+    document.getElementById("cart-count").textContent = 0;
+    return;
+  } else {
+    emptyMsg.style.display = "none";
+    document.getElementById("cart-hover").classList.remove("hide");
+    checkoutBtn.style.display = "block";
+  }
+
+  cart.forEach((item, idx) => {
+    total += item.price * item.qty;
+    const div = document.createElement("div");
+    div.className = "cart-item";
+    div.style.animation = "fadeIn 0.4s"; // subtle fade-in
+
+    // Image
+    const img = document.createElement("img");
+    img.className = "cart-item-img";
+    img.src = getImage(item);
+    img.alt = item.name;
+
+    // Info
+    const infoDiv = document.createElement("div");
+    infoDiv.className = "cart-item-info";
+
+    const nameSpan = document.createElement("span");
+    nameSpan.className = "cart-item-name";
+    nameSpan.textContent = item.name;
+
+    // Actions
+    const actionsDiv = document.createElement("div");
+    actionsDiv.className = "cart-item-actions";
+
+    const btnMinus = document.createElement("button");
+    btnMinus.textContent = "-";
+    btnMinus.title = "Decrease quantity";
+    btnMinus.setAttribute("aria-label", "Decrease quantity");
+    btnMinus.disabled = item.qty === 1;
+    btnMinus.onclick = () => updateQty(idx, -1);
+
+    const qtySpan = document.createElement("span");
+    qtySpan.textContent = item.qty;
+
+    const btnPlus = document.createElement("button");
+    btnPlus.textContent = "+";
+    btnPlus.title = "Increase quantity";
+    btnPlus.setAttribute("aria-label", "Increase quantity");
+    btnPlus.onclick = () => updateQty(idx, 1);
+
+    const btnRemove = document.createElement("button");
+    btnRemove.className = "remove-btn";
+    btnRemove.textContent = "Remove";
+    btnRemove.title = "Remove item";
+    btnRemove.setAttribute("aria-label", "Remove item");
+    btnRemove.onclick = () => removeItem(idx);
+
+    actionsDiv.appendChild(btnMinus);
+    actionsDiv.appendChild(qtySpan);
+    actionsDiv.appendChild(btnPlus);
+    actionsDiv.appendChild(btnRemove);
+
+    infoDiv.appendChild(nameSpan);
+    infoDiv.appendChild(actionsDiv);
+
+    // Price
+    const priceSpan = document.createElement("span");
+    priceSpan.className = "cart-item-price";
+    priceSpan.innerHTML = `₹${item.price * item.qty}<br><span style="font-size:0.9em;color:#888;">(₹${item.price} each)</span>`;
+
+    div.appendChild(img);
+    div.appendChild(infoDiv);
+    div.appendChild(priceSpan);
+
+    cartItems.appendChild(div);
+  });
+  cartTotal.textContent = "Total: ₹" + total;
+  document.getElementById("cart-count").textContent = cart.reduce(
+    (sum, i) => sum + i.qty,
+    0
+  );
+  renderSuggestions();
+}
+
+function updateQty(idx, delta) {
+  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  cart[idx].qty += delta;
+  if (cart[idx].qty < 1) cart[idx].qty = 1;
+  localStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
+}
+
+function removeItem(idx) {
+  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  cart.splice(idx, 1);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
+}
+
+function renderSuggestions() {
+  const allSuggestions = [
+    { name: "ABC Dry Powder 2kg", img: "abc.jpeg", price: 700 },
+    { name: "ABC Dry Powder 4kg", img: "abc.jpeg", price: 900 },
+    { name: "ABC Dry Powder 6kg", img: "abc.jpeg", price: 1100 },
+    { name: "CO2 Extinguisher 2kg", img: "co2.jpg", price: 1200 },
+    { name: "CO2 Extinguisher 4kg", img: "co2.jpg", price: 1500 },
+    { name: "Foam Extinguisher 9L", img: "Foam-Fire-Extinguishers.png", price: 1300 },
+    { name: "Foam Extinguisher 50L", img: "Foam-Fire-Extinguishers.png", price: 3500 },
+    { name: "Water Mist Extinguisher 6L", img: "water-fire-extinguisher.jpg", price: 900 },
+    { name: "Water Mist Extinguisher 9L", img: "water-fire-extinguisher.jpg", price: 1200 },
+    { name: "DLP Suppression System", img: "dlp.png", price: 25000 },
+    { name: "Fire Alarm System", img: "fire-alarm-system-removebg.png", price: 12000 },
+    // Add more as needed
+  ];
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  const cartNames = cart.map((i) => i.name.trim().toLowerCase());
+  const filtered = allSuggestions.filter(
+    (s) => !cartNames.includes(s.name.trim().toLowerCase())
+  );
+  const container = document.getElementById("cart-suggestions");
+  container.innerHTML = "";
+  filtered.forEach((s) => {
+    const div = document.createElement("div");
+    div.className = "suggestion-card";
+    div.style.animation = "fadeIn 0.5s";
+    div.innerHTML = `
+      <img src="${s.img}" alt="${s.name}">
+      <h4>${s.name}</h4>
+      <div style="color:#b31217;font-weight:600;margin-bottom:8px;">₹${s.price}</div>
+      <button onclick="addToCartFromSuggestion('${s.name.replace(/'/g, "\\'")}', ${s.price}, '${s.img}')"
+        aria-label="Add ${s.name} to cart" title="Add to cart">Add</button>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function addToCartFromSuggestion(name, price, img) {
+  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  const idx = cart.findIndex(
+    (i) => i.name.trim().toLowerCase() === name.trim().toLowerCase()
+  );
+  if (idx > -1) {
+    cart[idx].qty += 1;
+  } else {
+    const baseName = name.replace(/\s+\d+(kg|l|L)/i, "").trim();
+    cart.push({ name, price, qty: 1, image: images[baseName] || img });
+  }
+  localStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
+  renderSuggestions();
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  renderCart();
+  renderSuggestions();
+  document.getElementById("checkout-btn").onclick = function () {
+    window.location.href = "confirm-order.html";
+  };
+});
+
+// Subtle fade-in animation for cart items and suggestion cards
+const style = document.createElement('style');
+style.textContent = `
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px);}
+  to { opacity: 1; transform: none;}
+}
+.cart-item, .suggestion-card { animation: fadeIn 0.4s; }
+.cart-item:hover { background: #fff7f7; }
+`;
+document.head.appendChild(style);
+
+// Disable right-click context menu
+document.addEventListener("contextmenu", function (e) {
+  e.preventDefault();
+});
+
+// Disable F12, Ctrl+Shift+I/J/C/U
+document.addEventListener("keydown", function (e) {
+  if (e.key === "F12") e.preventDefault();
+  if (
+    e.ctrlKey &&
+    e.shiftKey &&
+    (e.key === "I" || e.key === "J" || e.key === "C")
+  )
+    e.preventDefault();
+  if (e.ctrlKey && e.key === "u") e.preventDefault();
+});
+
+// Accessibility: Cart hover button
+const cartHover = document.getElementById('cart-hover');
+if (cartHover) {
+  cartHover.setAttribute('aria-label', 'View cart');
+  cartHover.setAttribute('title', 'View cart');
+  cartHover.setAttribute('tabindex', '0');
+  cartHover.onkeydown = function(e) {
+    if (e.key === "Enter" || e.key === " ") {
+      window.location.href = 'cart.html';
+    }
+  };
+}
+
+// Accessibility: Remove button and quantity controls
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.cart-item-actions .remove-btn').forEach(btn => {
+    btn.setAttribute('aria-label', 'Remove item');
+    btn.setAttribute('title', 'Remove item');
+  });
+  document.querySelectorAll('.cart-item-actions button').forEach(btn => {
+    if (btn.textContent === '+') {
+      btn.setAttribute('aria-label', 'Increase quantity');
+      btn.setAttribute('title', 'Increase quantity');
+    }
+    if (btn.textContent === '-') {
+      btn.setAttribute('aria-label', 'Decrease quantity');
+      btn.setAttribute('title', 'Decrease quantity');
+    }
+  });
+});
+
+// Animate cart button when item is added
+window.addEventListener('storage', function(e) {
+  if (e.key === 'cart') {
+    const cartBtn = document.getElementById('cart-hover');
+    if (cartBtn) {
+      cartBtn.style.transform = 'scale(1.15)';
+      setTimeout(() => { cartBtn.style.transform = ''; }, 250);
+    }
+  }
+});
+    </script>
+  </body>
+</html>

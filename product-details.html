@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Details - Fire Trace</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="s.css">
+    <style>
+        body {
+            background: #f3f3f3;
+        }
+        .product-main-flex {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 900px;
+            margin: 40px auto 0 auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+            padding: 2rem;
+            gap: 32px;
+        }
+        .product-detail-info {
+            flex: 1 1 340px;
+            min-width: 280px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .product-detail-info h2 {
+            color: #b31217;
+            margin-bottom: 0.7rem;
+            font-size: 2rem;
+        }
+        .product-detail-info p {
+            margin-bottom: 0.8rem;
+            color: #444;
+            font-size: 1.08rem;
+        }
+        .product-detail-info label {
+            font-weight: 500;
+            margin-right: 8px;
+        }
+        #size-select {
+            padding: 6px 16px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+        .product-price-highlight {
+            font-size: 1.5rem;
+            color: #ff6a00;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+        .buy-btn {
+            background: linear-gradient(90deg, #ffd814 0%, #ff6a00 100%);
+            color: #222;
+            border: none;
+            border-radius: 20px;
+            padding: 12px 32px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1.2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            transition: background 0.2s, transform 0.2s;
+            width: fit-content;
+        }
+        .buy-btn:hover {
+            background: linear-gradient(90deg, #f7ca00 0%, #ff6a00 100%);
+            transform: scale(1.04);
+        }
+        .product-detail-image {
+            flex: 0 0 260px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .product-detail-image img {
+            max-width: 220px;
+            height: 180px;
+            object-fit: contain;
+            border-radius: 10px;
+            background: #f7f7f7;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        }
+        .suggestions-container {
+            max-width: 900px;
+            margin: 32px auto 40px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+            padding: 2rem;
+        }
+        .suggestions-container h3 {
+            text-align: left;
+            margin-bottom: 1.2rem;
+            font-size: 1.3rem;
+            color: #222;
+        }
+        #suggestions-list {
+            display: flex;
+            gap: 24px;
+            margin-top: 1.2rem;
+            overflow-x: auto;
+        }
+        .suggestion-card {
+            background: #fafafa;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #eee;
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-width: 200px;
+            max-width: 220px;
+            flex: 0 0 auto;
+        }
+        .suggestion-card img {
+            max-width: 100px;
+            height: 70px;
+            object-fit: contain;
+            margin-bottom: 0.7rem;
+            border-radius: 6px;
+            background: #f7f7f7;
+        }
+        .suggestion-card h4 {
+            font-size: 1rem;
+            margin-bottom: 0.4rem;
+            color: #b31217;
+        }
+        .suggestion-card p {
+            font-size: 0.95rem;
+            color: #444;
+            margin-bottom: 0.5rem;
+        }
+        .suggestion-card button {
+            background: linear-gradient(90deg, #ff6a00 0%, #b31217 100%);
+            color: #fff;
+            border: none;
+            border-radius: 18px;
+            padding: 6px 18px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .suggestion-card button:hover {
+            background: linear-gradient(90deg, #b31217 0%, #ff6a00 100%);
+            transform: scale(1.06);
+        }
+        /* Responsive styles */
+        @media (max-width: 900px) {
+            .product-main-flex {
+                flex-direction: column;
+                gap: 24px;
+                padding: 1rem;
+            }
+            .suggestions-container {
+                padding: 1rem;
+            }
+            #suggestions-list {
+                gap: 16px;
+            }
+            .suggestion-card {
+                min-width: 160px;
+                max-width: 48vw;
+            }
+            .product-detail-image img {
+                max-width: 160px;
+                height: 120px;
+            }
+        }
+        @media (max-width: 600px) {
+            .product-main-flex {
+                margin: 18px 0 0 0;
+                padding: 0.5rem;
+                border-radius: 8px;
+            }
+            .product-detail-info h2 {
+                font-size: 1.2em;
+            }
+            .product-detail-image img {
+                max-width: 100px;
+                height: 80px;
+            }
+            .suggestions-container {
+                margin: 18px 0 24px 0;
+                padding: 0.5rem;
+                border-radius: 8px;
+            }
+            #suggestions-list {
+                gap: 10px;
+            }
+            .suggestion-card {
+                min-width: 120px;
+                max-width: 90vw;
+                padding: 0.5rem;
+            }
+            .suggestion-card img {
+                max-width: 70px;
+                height: 50px;
+            }
+            .buy-btn {
+                padding: 10px 18px;
+                font-size: 1em;
+                border-radius: 14px;
+            }
+        }
+        /* Cart Hover Button styles */
+        .cart-hover {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #b31217;
+            color: #fff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: background 0.3s, transform 0.3s;
+        }
+        .cart-hover:hover {
+            background: #ff6a00;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header>
+        <div class="container">
+            <h1>Fire Trace</h1>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="product.html">Products</a>
+                <a href="ourservice.html">Our Services</a>
+                <a href="contact.html">Contact</a>
+                <a href="about.html">About us</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="product-main-flex">
+        <div class="product-detail-image">
+            <img id="product-image" src="" alt="">
+        </div>
+        <div class="product-detail-info">
+            <h2 id="product-name"></h2>
+            <p id="product-brief"></p>
+            <p><strong>Where is it used?</strong> <span id="product-use"></span></p>
+            <label for="size-select"><strong>Available Sizes:</strong></label>
+            <select id="size-select"></select>
+            <p><strong>Price:</strong> <span class="product-price-highlight">₹<span id="product-price"></span></span></p>
+            <button class="buy-btn" id="buy-now-btn">Buy Now</button>
+        </div>
+    </div>
+    <div class="suggestions-container">
+        <h3>You may also like</h3>
+        <div id="suggestions-list"></div>
+    </div>
+
+    <!-- Cart Hover Button -->
+    <div id="cart-hover" class="cart-hover" onclick="window.location.href='cart.html'">
+        🛒 <span id="cart-count">0</span>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-contacts" style="margin-bottom:10px;">
+                <a href="https://www.instagram.com/firetraceindustries" target="_blank" style="margin-right:15px; color:#fff; text-decoration:none; display:inline-block;">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg" alt="Instagram" style="width:20px;vertical-align:middle;margin-right:5px;filter:invert(1);"> Instagram
+                </a>
+                <a href="https://www.facebook.com/yourprofile" target="_blank" style="margin-right:15px; color:#fff; text-decoration:none; display:inline-block;">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/facebook.svg" alt="Facebook" style="width:20px;vertical-align:middle;margin-right:5px;filter:invert(1);"> Facebook
+                </a>
+                <a href="https://wa.me/919967535401" target="_blank" style="margin-right:15px; color:#fff; text-decoration:none; display:inline-block;">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/whatsapp.svg" alt="WhatsApp" style="width:20px;vertical-align:middle;margin-right:5px;filter:invert(1);"> WhatsApp
+                </a>
+                <span style="color:#fff; display:inline-block;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" style="vertical-align:middle;margin-right:5px;fill:#fff;display:inline;" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.07 21 3 13.93 3 5a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.24 1.01l-2.2 2.2z"/></svg>
+                    +91-9967535401
+                </span>
+            </div>
+            <p>&copy; 2025 Fire Trace. All rights reserved.</p>
+            <p style="font-size:0.95em; color:#fff; margin-top:6px;">
+                Page developed by: <a href="mailto:armansayyad9075@gmail.com" style="color:#ffd814;text-decoration:underline;">armansayyad9075@gmail.com</a>
+            </p>
+        </div>
+    </footer>
+    <script src="s.js"></script>
+    <script src="product-details.js"></script>
+    <script>
+// Disable right-click context menu
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+
+// Disable F12, Ctrl+Shift+I/J/C/U
+document.addEventListener('keydown', function(e) {
+    // F12
+    if (e.key === "F12") {
+        e.preventDefault();
+    }
+    // Ctrl+Shift+I/J/C
+    if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) {
+        e.preventDefault();
+    }
+    // Ctrl+U
+    if (e.ctrlKey && e.key === 'u') {
+        e.preventDefault();
+    }
+});
+
+const images = {
+    "ABC Dry Powder": "abc.jpeg",
+    "ABC Dry Powder 2kg": "abc.jpeg",
+    "ABC Dry Powder 4kg": "abc.jpeg",
+    "ABC Dry Powder 6kg": "abc.jpeg",
+    "CO2 Extinguisher": "co2.jpg",
+    "CO2 Extinguisher 2kg": "co2.jpg",
+    "CO2 Extinguisher 4kg": "co2.jpg",
+    "Foam Extinguisher": "Foam-Fire-Extinguishers.png",
+    "Foam Extinguisher 9L": "Foam-Fire-Extinguishers.png",
+    "Foam Extinguisher 50L": "Foam-Fire-Extinguishers.png",
+    "Water Mist Extinguisher": "water-fire-extinguisher.jpg",
+    "Water Mist Extinguisher 6L": "water-fire-extinguisher.jpg",
+    "Water Mist Extinguisher 9L": "water-fire-extinguisher.jpg",
+    "Automatic Modular Extinguisher": "automatic-modular.jpg",
+    "Kitchen Fire Blanket": "fire-blanket.jpg",
+    "Fire Ball Extinguisher": "fireball.jpg",
+    "Trolley Mounted Extinguisher": "https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=400&q=80",
+    "DLP Suppression System": "dlp.png",
+    "Gas Fire Suppression System": "gas.jpg",
+    "Kitchen Fire Suppression System": "KitchenFire.jpg",
+    "Fire Hydrant System": "firehydrant.jpg",
+    "Fire Alarm System": "fire-alarm-system-removebg.png",
+    "Fire Suppression System": "sprinkle.jpg",
+    "Engineering & Maintenance": "https://cdn-icons-png.flaticon.com/512/1828/1828919.png"
+};
+
+// Returns the correct image for any variant name
+function getProductImage(productName) {
+    // Try exact match first
+    let imgSrc = images[productName];
+    if (!imgSrc) {
+        // Try to find a base image by removing size info (e.g., "2kg", "4kg", "9L", etc.)
+        const baseName = productName.replace(/\s+\d+(kg|l|L)/i, '').trim();
+        imgSrc = images[baseName] || "https://via.placeholder.com/120x120?text=No+Image";
+    }
+    return imgSrc;
+}
+
+// --- Get Product ID from URL ---
+function getProductId() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('id');
+}
+
+// --- Render Product Details ---
+function renderProductDetails() {
+    const id = getProductId();
+    const product = products[id];
+    if (!product) return;
+
+    document.getElementById('product-image').src = product.image;
+    document.getElementById('product-image').alt = product.name;
+    document.getElementById('product-name').textContent = product.name;
+    document.getElementById('product-brief').textContent = product.brief;
+    document.getElementById('product-use').textContent = product.use;
+
+    // Populate sizes
+    const sizeSelect = document.getElementById('size-select');
+    sizeSelect.innerHTML = '';
+    Object.entries(product.sizes).forEach(([size, price]) => {
+        const option = document.createElement('option');
+        option.value = size;
+        option.textContent = `${size} - ₹${price}`;
+        sizeSelect.appendChild(option);
+    });
+
+    // Set initial price
+    document.getElementById('product-price').textContent = product.sizes[sizeSelect.value];
+
+    // Update price on size change
+    sizeSelect.addEventListener('change', function() {
+        document.getElementById('product-price').textContent = product.sizes[this.value];
+    });
+
+    // Buy Now button
+    document.getElementById('buy-now-btn').onclick = function() {
+        const selectedSize = sizeSelect.value;
+        const price = product.sizes[selectedSize];
+        addToCart(id, product.name + " (" + selectedSize + ")", price);
+        alert('Added to cart!');
+        if (window.updateCartCount) window.updateCartCount();
+    };
+}
+
+// --- Render Suggestions ---
+function renderSuggestions(currentId) {
+    const container = document.getElementById('suggestions-list');
+    if (!container) return;
+    // Get all other products except current
+    const otherProducts = Object.entries(products)
+        .filter(([pid]) => pid !== currentId)
+        .slice(0, 8); // <-- Show 8 suggestions instead of 4
+
+    container.innerHTML = otherProducts.map(([pid, prod]) => {
+        // Use first size for price
+        const firstSize = Object.keys(prod.sizes)[0];
+        const price = prod.sizes[firstSize];
+        return `
+            <div class="suggestion-card" tabindex="0" role="button" aria-label="${prod.name}">
+                <img src="${prod.image}" alt="${prod.name}">
+                <h4>${prod.name}</h4>
+                <p>${prod.brief}</p>
+                <button onclick="addToCart('${pid}', '${prod.name} (${firstSize})', ${price})" aria-label="Add ${prod.name} to cart" title="Add to cart">Add to cart</button>
+            </div>
+        `;
+    }).join('');
+}
+
+// --- Cart Logic (shared with s.js) ---
+function addToCart(id, name, price) {
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    // Check if already in cart
+    const idx = cart.findIndex(item => item.id === id && item.name === name);
+    if (idx > -1) {
+        cart[idx].qty += 1;
+    } else {
+        cart.push({ id, name, price, qty: 1 });
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    if (window.updateCartCount) window.updateCartCount();
+}
+
+// --- Hide Cart Button if Cart is Empty ---
+function hideCartIfEmpty() {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const cartHover = document.getElementById('cart-hover');
+    if (cartHover) {
+        if (cart.length === 0) {
+            cartHover.style.display = 'none';
+        } else {
+            cartHover.style.display = '';
+        }
+    }
+}
+
+// --- On Page Load ---
+window.addEventListener('DOMContentLoaded', function() {
+    const currentId = getProductId();
+    renderProductDetails();
+    renderSuggestions(currentId);
+    hideCartIfEmpty();
+    if (window.updateCartCount) window.updateCartCount();
+
+    // Accessibility: Cart hover button
+    const cartHover = document.getElementById('cart-hover');
+    if (cartHover) {
+        cartHover.setAttribute('aria-label', 'View cart');
+        cartHover.setAttribute('title', 'View cart');
+        cartHover.setAttribute('tabindex', '0');
+        cartHover.onkeydown = function(e) {
+            if (e.key === "Enter" || e.key === " ") {
+                window.location.href = 'cart.html';
+            }
+        };
+    }
+
+    // Accessibility: Buy Now button
+    const buyBtn = document.getElementById('buy-now-btn');
+    if (buyBtn) {
+        buyBtn.setAttribute('aria-label', 'Buy this product');
+        buyBtn.setAttribute('title', 'Buy this product');
+    }
+
+    // Accessibility: Suggestions
+    document.querySelectorAll('.suggestion-card button').forEach(btn => {
+        btn.setAttribute('aria-label', 'Add to cart');
+        btn.setAttribute('title', 'Add to cart');
+    });
+
+    // Accessibility: Footer contact links
+    document.querySelectorAll('.footer-contacts a').forEach(link => {
+        link.setAttribute('aria-label', link.textContent.trim());
+        link.setAttribute('title', link.textContent.trim());
+    });
+});
+
+// Animate cart button when item is added
+window.addEventListener('storage', function(e) {
+    const cartHover = document.getElementById('cart-hover');
+    if (e.key === 'cart' && cartHover) {
+        cartHover.style.transform = 'scale(1.15)';
+        setTimeout(() => { cartHover.style.transform = ''; }, 250);
+    }
+});
+    </script>
+</body>
+</html>

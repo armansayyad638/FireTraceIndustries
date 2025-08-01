@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fire Trace - Fire Extinguishers for Sale</title>
+    <link rel="stylesheet" href="s.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(90deg, #ff4500 0%, #ffd700 100%); /* Fire-like gradient */
+            color: #fff;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        /* Hero Search */
+        .hero-search {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .hero-search input {
+            padding: 10px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            width: 300px;
+            max-width: 100%;
+        }
+        .hero-search button {
+            padding: 10px 15px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            background: #ffd700;
+            color: #333;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .hero-search button:hover {
+            background: #ffc107;
+        }
+
+        /* Floating Action Button (FAB) */
+        .fab {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #ff6a00;
+            color: #fff;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+        .fab:hover {
+            transform: scale(1.1);
+        }
+        .fab img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .fab-options {
+            display: none;
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            z-index: 1000;
+        }
+        .fab-options a {
+            display: block;
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #ddd;
+            transition: background 0.2s;
+        }
+        .fab-options a:hover {
+            background: #f6f6f6;
+        }
+        .fab-options a:last-child {
+            border-bottom: none;
+        }
+
+        /* Cart Hover Button */
+        .cart-hover {
+            position: fixed;
+            bottom: 90px;      /* Place above the FAB */
+            right: 20px;       /* Same as FAB */
+            background: #b31217;
+            color: #fff;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 1020;     /* Above FAB */
+            transition: transform 0.3s ease;
+        }
+        .cart-hover:hover {
+            background: #a50f14;
+            transform: scale(1.1);
+        }
+        #cart-count {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #fff;
+            color: #b31217;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.8rem;
+        }
+
+        /* Header Search Results */
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 0 0 6px 6px;
+            z-index: 1000;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .search-results div {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        .search-results div:hover {
+            background: #f6f6f6;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container" style="display: flex; align-items: center; justify-content: space-between;">
+            <h1>Fire Trace</h1>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="product.html">Products</a>
+                <a href="ourservice.html">Our Services</a>
+                <a href="contact.html">Contact</a>
+                <a href="about.html">About Us</a>
+            </nav>
+            <form id="search-form" class="header-search" autocomplete="off" style="position:relative; max-width:240px; width:100%;">
+                <input type="text" id="search-input" placeholder="Search products or services..." style="padding-right:38px; padding-left:12px; height:36px; font-size:0.97rem;">
+                <span class="search-icon" style="position:absolute; right: -35px; top:50%; transform:translateY(-50%); color:#b31217; font-size:1.2em; pointer-events:none;">
+                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 20 20"><path d="M12.9 14.32a8 8 0 111.414-1.414l4.387 4.387a1 1 0 01-1.414 1.414l-4.387-4.387zM14 8a6 6 0 11-12 0 6 6 0 0112 0z"/></svg>
+                </span>
+                <div id="search-results" class="search-results"></div>
+            </form>
+        </div>
+    </header>
+    <section class="hero">
+        <div class="animate__animated animate__bounceInUp animate__delay-0.11s">
+            <h2>Protect What Matters Most</h2>
+            <p>High-quality fire extinguishers for home, office, and industrial safety.</p>
+            <a href="product.html" class="btn">Shop Now</a>
+        </div>
+    </section>
+    <section id="products" class="products">
+        <div class="container">
+            <h2 class="animate__animated animate__bounceInUp animate__delay-1s">Our Fire Extinguishers</h2>
+            <div class="product-list">
+                <div class="product-card animate__animated animate__bounceInUp animate__delay-1s">
+                    <img src="abc.jpeg" alt="ABC Fire Extinguisher">
+                    <h3>ABC Dry Powder</h3>
+                    <p>Multipurpose for home, office, and vehicles. 2kg, 4kg, 6kg sizes available.</p>
+                    <button class="btn" onclick="location.href='product-details.html?id=abc'">Go to</button>
+                </div>
+                <div class="product-card animate__animated animate__bounceInUp animate__delay-2s">
+                    <img src="co2.jpg" alt="CO2 Fire Extinguisher">
+                    <h3>CO<sub>2</sub> Extinguisher</h3>
+                    <p>Best for electrical fires and sensitive equipment. 2kg, 5kg sizes available.</p>
+                    <button class="btn" onclick="location.href='product-details.html?id=co2'">Go to</button>
+                </div>
+                <div class="product-card animate__animated animate__bounceInUp animate__delay-3s">
+                    <img src="Foam-Fire-Extinguishers.png" alt="Foam Fire Extinguisher">
+                    <h3>Foam Extinguisher</h3>
+                    <p>Ideal for flammable liquids and solid combustibles. 6L, 9L sizes available.</p>
+                    <button class="btn" onclick="location.href='product-details.html?id=foam'">Go to</button>
+                </div>
+                <div class="product-card animate__animated animate__bounceInUp animate__delay-4s">
+                    <img src="water-fire-extinguisher.jpg" alt="Water Mist Extinguisher">
+                    <h3>Water Mist Extinguisher</h3>
+                    <p>Eco-friendly, safe for most fires including electrical. 6L, 9L sizes available.</p>
+                    <button class="btn" onclick="location.href='product-details.html?id=water'">Go to</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="footer-contacts" style="margin-bottom:10px;">
+            <a href="https://www.instagram.com/firetraceindustries" target="_blank" style="margin-right:15px; color:#fff; text-decoration:none; display:inline-block;">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg" alt="Instagram" style="width:20px;vertical-align:middle;margin-right:5px;filter:invert(1);"> Instagram
+            </a>
+            <a href="https://www.facebook.com/yourprofile" target="_blank" style="margin-right:15px; color:#fff; text-decoration:none; display:inline-block;">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/facebook.svg" alt="Facebook" style="width:20px;vertical-align:middle;margin-right:5px;filter:invert(1);"> Facebook
+            </a>
+            <a href="https://wa.me/919967535401" target="_blank" style="margin-right:15px; color:#fff; text-decoration:none; display:inline-block;">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/whatsapp.svg" alt="WhatsApp" style="width:20px;vertical-align:middle;margin-right:5px;filter:invert(1);"> WhatsApp
+            </a>
+            <a href="mailto:shahbazfiretrace@gmail.com" style="margin-right:15px; color:#fff; text-decoration:none; display:inline-block;">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/gmail.svg" alt="Email" style="width:20px;vertical-align:middle;margin-right:5px;filter:invert(1);"> shahbazfiretrace@gmail.com
+            </a>
+            <span style="color:#fff; display:inline-block;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" style="vertical-align:middle;margin-right:5px;fill:#fff;display:inline;" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.07 21 3 13.93 3 5a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.24 1.01l-2.2 2.2z"/></svg>
+                +91-9967535401
+            </span>
+        </div>
+        <div class="container">
+            <p>&copy; 2025 Fire Trace. All rights reserved.</p>
+            <p style="font-size:0.95em; color:#fff; margin-top:6px;">
+                Page developed by: <a href="mailto:armansayyad9075@gmail.com" style="color:#ffd814;text-decoration:underline;">armansayyad9075@gmail.com</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Floating Action Button -->
+    <div class="fab" onclick="toggleFabOptions()">
+        <img src="https://cdn-icons-png.flaticon.com/512/724/724664.png" alt="Call Icon">
+        <div id="fab-options" class="fab-options">
+            <a href="tel:+919967535401">📞 Phone</a>
+            <a href="https://wa.me/919967535401" target="_blank">💬 WhatsApp</a>
+            <a href="mailto:shahbazfiretrace@gmail.com">shahbazfiretrace@gmail.com</a>
+        </div>
+    </div>
+
+    <!-- Cart Hover Button -->
+    <div id="cart-hover" class="cart-hover" onclick="window.location.href='cart.html'">
+        🛒 <span id="cart-count">0</span>
+    </div>
+
+    <script src="s.js"></script>
+    <script>
+// Disable right-click context menu
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+
+// Disable F12, Ctrl+Shift+I/J/C/U
+document.addEventListener('keydown', function(e) {
+    // F12
+    if (e.key === "F12") {
+        e.preventDefault();
+    }
+    // Ctrl+Shift+I/J/C
+    if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) {
+        e.preventDefault();
+    }
+    // Ctrl+U
+    if (e.ctrlKey && e.key === 'u') {
+        e.preventDefault();
+    }
+});
+
+// Accessibility: FAB keyboard support
+document.querySelector('.fab').setAttribute('tabindex', '0');
+document.querySelector('.fab').setAttribute('aria-label', 'Contact options');
+document.querySelector('.fab').setAttribute('title', 'Contact options');
+document.querySelector('.fab').onkeydown = function(e) {
+    if (e.key === "Enter" || e.key === " ") {
+        toggleFabOptions();
+    }
+};
+
+// Accessibility: Cart hover button
+document.getElementById('cart-hover').setAttribute('aria-label', 'View cart');
+document.getElementById('cart-hover').setAttribute('title', 'View cart');
+
+// Accessibility: Product card buttons
+document.querySelectorAll('.product-card .btn').forEach(btn => {
+    btn.setAttribute('aria-label', 'View details');
+    btn.setAttribute('title', 'View details');
+});
+
+// Cart count updater
+function updateCartCount() {
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    document.getElementById('cart-count').textContent = cart.reduce((sum, i) => sum + (i.qty || 1), 0);
+}
+document.addEventListener('DOMContentLoaded', updateCartCount);
+
+// Animate cart button when item is added
+window.addEventListener('storage', function(e) {
+    if (e.key === 'cart') {
+        updateCartCount();
+        const cartBtn = document.getElementById('cart-hover');
+        cartBtn.style.transform = 'scale(1.15)';
+        setTimeout(() => { cartBtn.style.transform = ''; }, 250);
+    }
+});
+</script>
+</body>
+</html>

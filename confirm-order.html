@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Order - Fire Trace</title>
+    <link rel="stylesheet" href="s.css">
+    <style>
+body {
+    background: linear-gradient(120deg, #fff 0%, #ffe5e5 100%);
+    min-height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+}
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background: #ffe5e5;
+    border-radius: 6px 6px 0 0;
+    overflow: hidden;
+    margin-bottom: 0;
+}
+.progress-bar-inner {
+    width: 80%;
+    height: 100%;
+    background: linear-gradient(90deg, #b31217 0%, #ff6a00 100%);
+    border-radius: 6px 6px 0 0;
+    animation: progressBar 1.2s cubic-bezier(.4,0,.2,1);
+}
+@keyframes progressBar {
+    from { width: 0; }
+    to { width: 80%; }
+}
+.confirm-container {
+    max-width: 480px;
+    margin: 40px auto 30px auto;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(179,18,23,0.13), 0 2px 8px rgba(0,0,0,0.06);
+    padding: 38px 28px 28px 28px;
+    border: 1.5px solid #ffe5e5;
+    transition: box-shadow 0.2s;
+}
+.confirm-container:hover {
+    box-shadow: 0 12px 36px rgba(179,18,23,0.18), 0 4px 16px rgba(0,0,0,0.09);
+}
+.confirm-container h2 {
+    color: #b31217;
+    font-size: 2em;
+    margin-bottom: 18px;
+    letter-spacing: 1px;
+    text-align: center;
+}
+.order-summary {
+    margin-bottom: 28px;
+    background: linear-gradient(90deg, #fff7f7 60%, #ffe5e5 100%);
+    border-radius: 10px;
+    padding: 16px 14px 10px 14px;
+    border: 1px solid #ffe5e5;
+    box-shadow: 0 1px 6px rgba(179,18,23,0.06);
+}
+.order-summary ul {
+    padding-left: 18px;
+    margin: 0 0 10px 0;
+}
+.order-summary li {
+    margin-bottom: 6px;
+    color: #b31217;
+    font-size: 1.08em;
+}
+.order-total {
+    font-weight: bold;
+    color: #b31217;
+    margin-bottom: 8px;
+    text-align: right;
+    font-size: 1.13em;
+}
+.confirm-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #b31217;
+}
+.confirm-form input, .confirm-form textarea {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 18px;
+    border: 1.5px solid #ffd6d6;
+    border-radius: 12px;
+    font-size: 1.13em;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(179,18,23,0.04);
+}
+.confirm-form input:focus, .confirm-form textarea:focus {
+    border-color: #b31217;
+    outline: none;
+    box-shadow: 0 0 0 2px #ffe5e5;
+}
+.confirm-form .payment-methods {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-bottom: 18px;
+    justify-content: center;
+}
+.confirm-form .payment-methods label {
+    display: flex;
+    align-items: center;
+    margin-right: 0;
+    font-weight: 400;
+    white-space: nowrap;
+    font-size: 1.05em;
+    background: #fff7f7;
+    border-radius: 6px;
+    padding: 6px 12px;
+    border: 1px solid #ffd6d6;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    box-shadow: 0 1px 4px rgba(179,18,23,0.07);
+}
+.confirm-form .payment-methods input[type="radio"] {
+    margin-right: 6px;
+    accent-color: #b31217;
+}
+.confirm-form .payment-methods label:hover, .confirm-form .payment-methods input[type="radio"]:focus + label {
+    background: #ffe5e5;
+    border-color: #b31217;
+    box-shadow: 0 2px 8px rgba(179,18,23,0.13);
+    transform: translateY(-2px) scale(1.04);
+}
+.payment-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+.confirm-btn {
+    background: linear-gradient(90deg, #b31217 0%, #ff6a00 100%);
+    color: #fff;
+    border: none;
+    border-radius: 18px;
+    padding: 14px 24px;
+    font-size: 1.13em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s,transform 0.2s;
+    width: 100%;
+    margin-top: 18px;
+    border-top: 1px solid #ffe5e5;
+    padding-top: 18px;
+}
+.confirm-btn:hover {
+    background: linear-gradient(90deg, #a50f14 0%, #ff6a00 100%);
+}
+.success-message {
+    display: none;
+    margin-top: 28px;
+    text-align: center;
+}
+.success-message h3 {
+    color: #28a745;
+    font-size: 1.3em;
+}
+.success-message p {
+    color: #555;
+    font-size: 1.08em;
+}
+.checkmark-circle {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    margin-bottom: 10px;
+    animation: popIn 0.7s cubic-bezier(.4,0,.2,1);
+}
+.checkmark-circle svg {
+    width: 100%;
+    height: 100%;
+}
+@keyframes popIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    80% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); }
+}
+@media (max-width: 600px) {
+    .confirm-container {
+        max-width: 98vw;
+        padding: 18px 4vw 18px 4vw;
+        margin: 18px auto 12px auto;
+    }
+    .confirm-container h2 {
+        font-size: 1.3em;
+    }
+    .order-summary ul {
+        padding-left: 10px;
+        font-size: 0.98em;
+    }
+    .order-total {
+        font-size: 1em;
+    }
+    .confirm-form input,
+    .confirm-form textarea {
+        font-size: 0.97em;
+        padding: 8px;
+    }
+    .confirm-btn {
+        font-size: 0.97em;
+        padding: 10px 10px;
+    }
+    .confirm-form .payment-methods {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+}
+</style>
+</head>
+<body>
+    <div class="confirm-container">
+        <h2>Confirm Your Order</h2>
+        <div class="progress-bar">
+            <div class="progress-bar-inner"></div>
+        </div>
+        <div class="order-summary" id="order-summary"></div>
+        <form id="confirm-form" class="confirm-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="address">Address:</label>
+            <textarea id="address" name="address" rows="3" required></textarea>
+
+            <label>Payment Method:</label>
+            <div class="payment-methods">
+                <label><input type="radio" name="payment" value="paytm" required>
+                    <span class="payment-icon" title="Paytm">
+                        <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="10" fill="#00baf2"/><text x="12" y="17" text-anchor="middle" font-size="10" fill="#fff" font-family="Arial">₹</text></svg>
+                    </span>
+                    Paytm
+                </label>
+                <label><input type="radio" name="payment" value="gpay">
+                    <span class="payment-icon" title="Google Pay">
+                        <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="10" fill="#4285F4"/><text x="12" y="17" text-anchor="middle" font-size="10" fill="#fff" font-family="Arial">G</text></svg>
+                    </span>
+                    Google Pay
+                </label>
+                <label><input type="radio" name="payment" value="card">
+                    <span class="payment-icon" title="Card">
+                        <svg viewBox="0 0 24 24" width="20" height="20"><rect x="3" y="7" width="18" height="10" rx="2" fill="#ff6a00"/><rect x="3" y="10" width="18" height="2" fill="#fff"/></svg>
+                    </span>
+                    Credit/Debit Card
+                </label>
+                <label><input type="radio" name="payment" value="cod">
+                    <span class="payment-icon" title="Cash">
+                        <svg viewBox="0 0 24 24" width="20" height="20"><rect x="3" y="7" width="18" height="10" rx="2" fill="#28a745"/><text x="12" y="17" text-anchor="middle" font-size="10" fill="#fff" font-family="Arial">₹</text></svg>
+                    </span>
+                    Cash on Delivery
+                </label>
+                <label><input type="radio" name="payment" value="applepay">
+                    <span class="payment-icon" title="Apple Pay">
+                        <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="10" fill="#000"/><text x="12" y="17" text-anchor="middle" font-size="10" fill="#fff" font-family="Arial"></text></svg>
+                    </span>
+                    Apple Pay
+                </label>
+            </div>
+            <button type="submit" class="confirm-btn">Place Order</button>
+        </form>
+        <div class="success-message" id="success-message">
+            <div class="checkmark-circle">
+                <svg width="60" height="60">
+                    <circle cx="30" cy="30" r="28" fill="#eafaf1" stroke="#28a745" stroke-width="3"/>
+                    <polyline points="18,32 28,42 44,22" fill="none" stroke="#28a745" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h3>Thank you for your order!</h3>
+            <p>Your order has been successfully processed.</p>
+            <a href="index.html" style="color:#b31217;text-decoration:underline;">Return to Home</a>
+        </div>
+        <div style="margin-bottom:18px;">
+            <button onclick="window.location.href='cart.html';" style="background:none;border:none;color:#b31217;font-size:1.08em;cursor:pointer;display:flex;align-items:center;gap:6px;">
+                <svg width="20" height="20" style="vertical-align:middle;" viewBox="0 0 20 20"><polyline points="12,5 7,10 12,15" fill="none" stroke="#b31217" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Back to Cart
+            </button>
+        </div>
+    </div>
+    <script>
+    // Show cart summary
+    function renderOrderSummary() {
+        const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        const summary = document.getElementById('order-summary');
+        if (!cart.length) {
+            summary.innerHTML = '<div style="color:#b31217;font-weight:500;">Your cart is empty.</div>';
+            document.getElementById('confirm-form').style.display = 'none';
+            return;
+        }
+        let total = 0;
+        let html = '<ul>';
+        cart.forEach(item => {
+            html += `<li>${item.name} x ${item.qty} <span style="float:right;">₹${item.price * item.qty}</span></li>`;
+            total += item.price * item.qty;
+        });
+        html += '</ul>';
+        html += `<div class="order-total">Total: ₹${total}</div>`;
+        summary.innerHTML = html;
+    }
+
+    renderOrderSummary();
+
+    // Handle order confirmation
+    document.getElementById('confirm-form').onsubmit = function(e) {
+        e.preventDefault();
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const address = document.getElementById('address').value;
+        const payment = document.querySelector('input[name="payment"]:checked').value;
+        const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+        // Store order in localStorage (simulate backend)
+        let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+        orders.push({
+            name, email, address, payment, cart, total, date: new Date().toISOString()
+        });
+        localStorage.setItem('orders', JSON.stringify(orders));
+
+        // Simulate payment
+        if (payment === 'paytm') {
+            alert('Please scan the Paytm QR code or use your Paytm app to pay. (Demo only)');
+        } else if (payment === 'gpay') {
+            alert('Please scan the Google Pay QR code or use your GPay app to pay. (Demo only)');
+        } else if (payment === 'card') {
+            alert('Card payment is not enabled in demo. Please use another method or contact us.');
+        } else if (payment === 'cod') {
+            alert('You selected Cash on Delivery. Please keep the amount ready.');
+        } else if (payment === 'applepay') {
+            alert('Please use your Apple Pay app to complete the payment. (Demo only)');
+        }
+
+        // Show success and clear cart
+        document.getElementById('confirm-form').style.display = 'none';
+        document.getElementById('success-message').style.display = 'block';
+        localStorage.removeItem('cart');
+    };
+
+    // Accessibility: Back to Cart button
+    const backBtn = document.querySelector('button[onclick*="cart.html"]');
+    if (backBtn) {
+        backBtn.setAttribute('aria-label', 'Back to Cart');
+        backBtn.setAttribute('title', 'Back to Cart');
+        backBtn.setAttribute('tabindex', '0');
+        backBtn.onkeydown = function(e) {
+            if (e.key === "Enter" || e.key === " ") {
+                window.location.href = 'cart.html';
+            }
+        };
+    }
+
+    // Accessibility: Payment method radio buttons
+    document.querySelectorAll('.payment-methods input[type="radio"]').forEach(radio => {
+        radio.setAttribute('aria-label', radio.value.charAt(0).toUpperCase() + radio.value.slice(1));
+    });
+
+    // Accessibility: Confirm button
+    const confirmBtn = document.querySelector('.confirm-btn');
+    if (confirmBtn) {
+        confirmBtn.setAttribute('aria-label', 'Place Order');
+        confirmBtn.setAttribute('title', 'Place Order');
+    }
+
+    // Accessibility: Success message link
+    const successLink = document.querySelector('.success-message a');
+    if (successLink) {
+        successLink.setAttribute('aria-label', 'Return to Home');
+        successLink.setAttribute('title', 'Return to Home');
+    }
+    </script>
+</body>
+</html>

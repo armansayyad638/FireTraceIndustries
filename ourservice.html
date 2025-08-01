@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services - Fire Trace</title>
+    <link rel="stylesheet" href="s.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+    .product-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px; /* Add spacing between cards */
+        justify-content: center; /* Center the cards */
+    }
+
+    .product-card {
+        flex: 1 1 calc(33.33% - 20px); /* Adjust width for three cards per row */
+        max-width: 300px; /* Set a maximum width for cards */
+        box-sizing: border-box; /* Include padding and border in width */
+        text-align: center; /* Center content inside cards */
+    }
+
+    @media (max-width: 900px) {
+        .product-card {
+            flex: 1 1 calc(50% - 20px); /* Two cards per row for smaller screens */
+        }
+    }
+
+    @media (max-width: 600px) {
+        .product-card {
+            flex: 1 1 100%; /* One card per row for very small screens */
+        }
+    }
+
+    /* Floating Action Button Styles */
+    .fab {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #007bff;
+        color: white;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+    }
+
+    .fab img {
+        width: 24px;
+        height: 24px;
+    }
+
+    .fab-options {
+        display: none;
+        position: absolute;
+        bottom: 70px;
+        right: 0;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+    }
+
+    .fab-options a {
+        display: block;
+        padding: 10px 15px;
+        color: #007bff;
+        text-decoration: none;
+        border-bottom: 1px solid #f1f1f1;
+    }
+
+    .fab-options a:last-child {
+        border-bottom: none;
+    }
+
+    .fab-options a:hover {
+        background-color: #f1f1f1;
+    }
+
+    /* Cart Hover Button Styles */
+    .cart-hover {
+        position: fixed;
+        bottom: 90px;      /* Place above the FAB */
+        right: 20px;       /* Same as FAB */
+        background: #b31217;
+        color: #fff;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        z-index: 1020;     /* Above FAB */
+        transition: transform 0.3s ease;
+    }
+
+    .cart-hover:hover {
+        background: #a50f14;
+        transform: scale(1.1);
+    }
+
+    #cart-count {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background: #fff;
+        color: #b31217;
+        border-radius: 50%;
+        padding: 2px 6px;
+        font-size: 0.8rem;
+    }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Fire Trace</h1>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="product.html">Products</a>
+                <a href="ourservice.html">Our Services</a>
+                <a href="contact.html">Contact</a>
+                <a href="about.html">About us</a>
+            </nav>
+        </div>
+    </header>
+    <center><h2>Our services</h2></center>
+    <section class="about-content" style="background:#fff; padding:40px 0;">
+        <div class="container" style="max-width:1100px;">
+            <div class="product-list">
+                <div class="product-card" tabindex="0" onclick="location.href='service-detail.html?id=dlp'" style="cursor:pointer;outline:none;">
+                    <img src="dlp.png" alt="Fire Protection" style="width:80px;height:80px;margin-bottom:10px;">
+                    <h3>DLP Suppression System</h3>
+                    <p>A safety mechanism designed to extinguish, control, or prevent the spread of fire. These systems are crucial for protecting lives, property, and assets in various settings, including commercial buildings, industrial facilities, and even vehicles.</p>
+                </div>
+                <div class="product-card" tabindex="0" onclick="location.href='service-detail.html?id=gas'" style="cursor:pointer;outline:none;">
+                    <img src="gas.jpg" alt="Ventilation" style="width:80px;height:80px;margin-bottom:10px;">
+                    <h3>Gas Fire Suppression System</h3>
+                    <p>Utilizes inert gases to extinguish fires without damaging sensitive equipment. Ideal for server rooms and data centers.</p>
+                </div>
+                <div class="product-card" tabindex="0" onclick="location.href='service-detail.html?id=kitchen'" style="cursor:pointer;outline:none;">
+                    <img src="KitchenFire.jpg" alt="Alarm" style="width:80px;height:80px;margin-bottom:10px;">
+                    <h3>Kitchen Fire Suppression System</h3>
+                    <p>Specialized systems designed to extinguish fires in commercial kitchens, protecting both people and property.</p>
+                </div>
+                <div class="product-card" tabindex="0" onclick="location.href='service-detail.html?id=hydrant'" style="cursor:pointer;outline:none;">
+                    <img src="firehydrant.jpg" alt="Risk Management" style="width:80px;height:80px;margin-bottom:10px;">
+                    <h3>Fire Hydrant System</h3>
+                    <p>A system of pipe work connected directly to the water supply main to provide water to every hydrant outlet and is intended to provide water for the firemen to fight a fire. The water is discharged into the fire engine form which it is then pumped and sprayed over fire.</p>
+                </div>
+                <div class="product-card" tabindex="0" onclick="location.href='service-detail.html?id=alarm'" style="cursor:pointer;outline:none;">
+                    <img src="fire-alarm-system-removebg.png" alt="PPE" style="width:80px;height:80px;margin-bottom:10px;">
+                    <h3>Fire Alarm System</h3>
+                    <p>A unit made of several devices, which uses visual and audio signaling to warn people about a possible fire, smoke, or carbon monoxide occurrence in the area of coverage. Fire alarms are usually set in fire alarm systems to provide zonal coverage for residences and commercial buildings.</p>
+                </div>
+                <div class="product-card" tabindex="0" onclick="location.href='service-detail.html?id=suppression'" style="cursor:pointer;outline:none;">
+                    <img src="sprinkle.jpg" alt="Gas Based" style="width:80px;height:80px;margin-bottom:10px;">
+                    <h3>Fire Suppression System</h3>
+                    <p>A safety mechanism designed to extinguish, control, or prevent the spread of fire. It uses various agents like gases, chemicals, or foams to suppress the fire, often activated by heat or smoke detectors. These systems are crucial for protecting property, assets, and lives in various settings.</p>
+                </div>
+                <div class="product-card" tabindex="0" onclick="location.href='service-detail.html?id=engineering'" style="cursor:pointer;outline:none;">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828919.png" alt="Engineering" style="width:80px;height:80px;margin-bottom:10px;">
+                    <h3>Engineering &amp; Maintenance</h3>
+                    <p>Supply, design, engineering, installation, and maintenance of all fire safety systems.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Floating Action Button -->
+    <div class="fab" onclick="toggleFabOptions()">
+        <img src="https://cdn-icons-png.flaticon.com/512/134/134914.png" alt="Message Icon">
+        <div id="fab-options" class="fab-options">
+            <a href="tel:+919967535401">📞 Phone</a>
+            <a href="https://wa.me/919967535401" target="_blank">💬 WhatsApp</a>
+            <a href="mailto:shahbazfiretrace@gmail.com">shahbazfiretrace@gmail.com</a>
+        </div>
+    </div>
+    <!-- Cart Hover Button -->
+    <div id="cart-hover" class="cart-hover" onclick="window.location.href='cart.html'">
+        🛒 <span id="cart-count">0</span>
+    </div>
+    <footer>
+        <div class="footer-contacts" style="margin-bottom:10px;">
+            <a href="https://www.instagram.com/firetraceindustries" target="_blank" style="margin-right:15px; color:#fff; text-decoration:none; display:inline-block;">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg" alt="Instagram" style="width:20px;vertical-align:middle;margin-right:5px;filter:invert(1);"> Instagram
+            </a>
+            <a href="https://www.facebook.com/yourprofile" target="_blank" style="margin-right:15px; color:#fff; text-decoration:none; display:inline-block;">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/facebook.svg" alt="Facebook" style="width:20px;vertical-align:middle;margin-right:5px;filter:invert(1);"> Facebook
+            </a>
+            <a href="https://wa.me/919967535401" target="_blank" style="margin-right:15px; color:#fff; text-decoration:none; display:inline-block;">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/whatsapp.svg" alt="WhatsApp" style="width:20px;vertical-align:middle;margin-right:5px;filter:invert(1);"> WhatsApp
+            </a>
+            <a href="mailto:shahbazfiretrace@gmail.com" style="margin-right:15px; color:#fff; text-decoration:none; display:inline-block;">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/gmail.svg" alt="Email" style="width:20px;vertical-align:middle;margin-right:5px;filter:invert(1);"> shahbazfiretrace@gmail.com
+            </a>
+            <span style="color:#fff; display:inline-block;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" style="vertical-align:middle;margin-right:5px;fill:#fff;display:inline;" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.07 21 3 13.93 3 5a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.24 1.01l-2.2 2.2z"/></svg>
+                +91-9967535401
+            </span>
+        </div>
+        <div class="container">
+            <p>&copy; 2025 Fire Trace. All rights reserved.</p>
+            <p style="font-size:0.95em; color:#fff; margin-top:6px;">
+                Page developed by: <a href="mailto:armansayyad9075@gmail.com" style="color:#ffd814;text-decoration:underline;">armansayyad9075@gmail.com</a>
+            </p>
+        </div>
+    </footer>
+    <script src="s.js"></script>
+    <script>
+// Disable right-click context menu
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+
+// Disable F12, Ctrl+Shift+I/J/C/U
+document.addEventListener('keydown', function(e) {
+    // F12
+    if (e.key === "F12") {
+        e.preventDefault();
+    }
+    // Ctrl+Shift+I/J/C
+    if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) {
+        e.preventDefault();
+    }
+    // Ctrl+U
+    if (e.ctrlKey && e.key === 'u') {
+        e.preventDefault();
+    }
+});
+
+// Accessibility: Cart hover button
+const cartHover = document.getElementById('cart-hover');
+if (cartHover) {
+  cartHover.setAttribute('aria-label', 'View cart');
+  cartHover.setAttribute('title', 'View cart');
+  cartHover.setAttribute('tabindex', '0');
+  cartHover.onkeydown = function(e) {
+    if (e.key === "Enter" || e.key === " ") {
+      window.location.href = 'cart.html';
+    }
+  };
+}
+
+// Accessibility: FAB
+const fab = document.querySelector('.fab');
+if (fab) {
+  fab.setAttribute('aria-label', 'Contact options');
+  fab.setAttribute('title', 'Contact options');
+  fab.setAttribute('tabindex', '0');
+  fab.onkeydown = function(e) {
+    if (e.key === "Enter" || e.key === " ") {
+      toggleFabOptions();
+    }
+  };
+}
+
+// Accessibility: Footer contact links
+document.querySelectorAll('.footer-contacts a').forEach(link => {
+  link.setAttribute('aria-label', link.textContent.trim());
+  link.setAttribute('title', link.textContent.trim());
+});
+
+// Accessibility: Service cards
+document.querySelectorAll('.product-card').forEach(card => {
+  card.setAttribute('role', 'button');
+  card.setAttribute('aria-label', card.querySelector('h3')?.textContent || 'Service');
+});
+
+// Animate cart button when item is added
+window.addEventListener('storage', function(e) {
+  if (e.key === 'cart') {
+    if (cartHover) {
+      cartHover.style.transform = 'scale(1.15)';
+      setTimeout(() => { cartHover.style.transform = ''; }, 250);
+    }
+  }
+});
+</script>
+  
+</body>
+</html>
